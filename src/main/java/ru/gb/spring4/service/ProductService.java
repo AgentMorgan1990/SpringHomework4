@@ -5,34 +5,34 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ru.gb.spring4.entity.Product;
-import ru.gb.spring4.repository.ProductRepository;
+import ru.gb.spring4.repository.ProductDaoImpl;
+
 
 @Service
 public class ProductService {
-    private ProductRepository repository;
+    private final ProductDaoImpl productDao;
 
-    public ProductService(ProductRepository repository) {
-        this.repository = repository;
+    public ProductService(ProductDaoImpl productDao) {
+        this.productDao = productDao;
     }
 
 
     public List<Product> findAll() {
-        return repository.findAll();
+        return productDao.findAll();
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        productDao.deleteById(id);
     }
 
-    public void changePrice(Long id, Double delta) {
-        Product product = repository.findById(id);
-        double newPrice = product.getPrice();
+    public void changePrice(Long id, Integer delta) {
+        Product product = productDao.findById(id);
+        int newPrice = product.getPrice();
         newPrice = newPrice + delta;
-        if (newPrice<0){
+        if (newPrice < 0) {
             newPrice = 0;
         }
         product.setPrice(newPrice);
-        repository.deleteById(id);
-        repository.save(product);
+        productDao.saveOrUpdate(product);
     }
 }
