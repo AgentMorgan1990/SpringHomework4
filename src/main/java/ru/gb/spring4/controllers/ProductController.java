@@ -13,7 +13,7 @@ public class ProductController {
         this.service = service;
     }
 
-    private ProductService service;
+    private final ProductService service;
 
     @GetMapping("/products")
     @ResponseBody
@@ -23,7 +23,7 @@ public class ProductController {
 
     @GetMapping("/products/change_price")
     @ResponseBody
-    public void changeProductPrice(@RequestParam Long productId, @RequestParam Double delta) {
+    public void changeProductPrice(@RequestParam Long productId, @RequestParam Integer delta) {
         service.changePrice(productId, delta);
     }
 
