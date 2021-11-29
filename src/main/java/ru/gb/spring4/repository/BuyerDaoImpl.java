@@ -10,24 +10,23 @@ import ru.gb.spring4.entity.Buyer;
 import ru.gb.spring4.entity.Product;
 
 @Component
-public class ProductDaoImpl implements ProductDao {
+public class BuyerDaoImpl implements BuyerDao {
     private final SessionFactoryUtils sessionFactoryUtils;
 
 
-    public ProductDaoImpl(SessionFactoryUtils sessionFactoryUtils) {
+    public BuyerDaoImpl(SessionFactoryUtils sessionFactoryUtils) {
         this.sessionFactoryUtils = sessionFactoryUtils;
     }
 
     @Override
-    public List<Buyer> findById(Long id) {
+    public List<Product> findById(Long id) {
         try (Session session = sessionFactoryUtils.getSession()) {
             session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            List<Buyer> buyers = product.getBuyers();
-            System.out.println(buyers); //todo без этой строчки выпадает ошибка lazy initialization
+            Buyer buyer = session.get(Buyer.class, id);
+            List<Product> products = buyer.getProducts();
+            System.out.println(products); //todo без этой строчки выпадает ошибка lazy initialization
             session.getTransaction().commit();
-            return buyers;
+            return products;
         }
-
     }
 }

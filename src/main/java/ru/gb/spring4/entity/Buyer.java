@@ -14,8 +14,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
-public class Product {
+@Table(name = "buyers")
+public class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,14 +24,11 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "price")
-    private int price;
-
     @ManyToMany
     @JoinTable(
             name ="products_buyers",
-            joinColumns = @JoinColumn(name = "products_id"),
-            inverseJoinColumns = @JoinColumn(name = "buyers_id")
+            joinColumns = @JoinColumn(name = "buyers_id"),
+            inverseJoinColumns = @JoinColumn(name = "products_id")
     )
-    List<Buyer> buyers;
+    List<Product> products;
 }
