@@ -1,6 +1,7 @@
 package ru.gb.spring4.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     @ResponseBody
-    public Product findProduct(Long id) {
+    public Optional<Product> findProduct(Long id) {
         return service.findById(id);
     }
 
@@ -40,21 +41,9 @@ public class ProductController {
         service.deleteById(id);
     }
 
-    @GetMapping("/products/min")
-    @ResponseBody
-    public List<Product> findLessThanPriceValue(@RequestParam Integer min) {
-        return service.findLessThanValue(min);
-    }
-
-    @GetMapping("/products/max")
-    @ResponseBody
-    public List<Product> findMoreThanPriceValue(@RequestParam Integer max) {
-        return service.findMoreThanValue(max);
-    }
-
     @GetMapping("/products/between")
     @ResponseBody
-    public List<Product> findAllProductsBetweenPrice(@RequestParam Integer min, @RequestParam Integer max) {
+    public List<Product> findAllProductsBetweenPrice(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "2147483647") Integer max) {
         return service.findByPriceBetween(min, max);
     }
 

@@ -1,21 +1,21 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/app';
 
-    $scope.loadStudents = function () {
+    $scope.loadProducts = function () {
         $http.get(contextPath + '/products')
             .then(function (response) {
                 $scope.ProductsList = response.data;
             });
     };
 
-    $scope.deleteStudent = function (productId) {
+    $scope.deleteProduct = function (productId) {
         $http.get(contextPath + '/products/delete/' + productId)
             .then(function (response) {
-                $scope.loadStudents();
+                $scope.loadProducts();
             });
     }
 
-    $scope.changeScore = function (productId, delta) {
+    $scope.changePrice = function (productId, delta) {
         $http({
             url: contextPath + '/products/change_price',
             method: 'GET',
@@ -24,9 +24,21 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 delta: delta
             }
         }).then(function (response) {
-            $scope.loadStudents();
+            $scope.loadProducts();
+        });
+    }
+    $scope.filteredByPrice = function () {
+        $http({
+            url: contextPath + '/products/between',
+            method: 'GET',
+            params: {
+               min: $scope.min,
+                max: $scope.max
+            }
+        }).then(function (response) {
+            $scope.ProductsList = response.data;
         });
     }
 
-    $scope.loadStudents();
+    $scope.loadProducts();
 });

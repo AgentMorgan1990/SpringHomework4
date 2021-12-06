@@ -1,6 +1,7 @@
 package ru.gb.spring4.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,8 @@ public class ProductService {
     }
 
 
-    public Product findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id: " + id));
+    public Optional<Product> findById(Long id) {
+        return repository.findById(id);
     }
 
     public List<Product> findAll() {
@@ -38,14 +39,6 @@ public class ProductService {
 
     public List<Product> findByPriceBetween(Integer min, Integer max) {
         return repository.findAllByPriceBetween(min, max);
-    }
-
-    public List<Product> findLessThanValue(Integer min) {
-        return repository.findLessThanValue(min);
-    }
-
-    public List<Product> findMoreThanValue(Integer max) {
-        return repository.findMoreThanValue(max);
     }
 
     @Transactional
