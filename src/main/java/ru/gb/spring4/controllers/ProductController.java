@@ -1,14 +1,16 @@
 package ru.gb.spring4.controllers;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
 
+import ru.gb.spring4.dto.ProductDto;
 import ru.gb.spring4.entity.Product;
 import ru.gb.spring4.service.ProductService;
 
 @RestController
+@RequestMapping("/v1/products")
 public class ProductController {
 
     private final ProductService service;
@@ -17,39 +19,36 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("/products")
+    @GetMapping()
     @ResponseBody
-    public List<Product> findAllProducts() {
-        return service.findAll();
+    public List<ProductDto> findAllProducts() {
+        return service.findAll().stream().map(s->new ProductDto(s)).collect(Collectors.toList());
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public Optional<Product> findProduct(Long id) {
-        return service.findById(id);
+    public ProductDto findProduct(@PathVariable Long id) {
+        return new ProductDto(service.findById(id).get());
     }
 
-    @PostMapping("/products/add")
+    @PostMapping()
     @ResponseBody
-    public Product addProducts(@RequestBody Product product) {
-        return service.save(product);
+    public ProductDto addProducts(@RequestBody ProductDto productDto) {
+        service.save(new Product(productDto.getId(), productDto.getName(), productDto.getPrice()));
+        return productDto;
     }
 
-    @GetMapping("/products/delete/{id}")
+    @PutMapping()
+    public ProductDto updateProducts(@RequestBody ProductDto productDto) {
+       Product product = service.findById(productDto.getId()).get();
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        return productDto;
+    }
+
+    @DeleteMapping("/{id}")
     @ResponseBody
     public void deleteProduct(@PathVariable Long id) {
         service.deleteById(id);
-    }
-
-    @GetMapping("/products/between")
-    @ResponseBody
-    public List<Product> findAllProductsBetweenPrice(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "2147483647") Integer max) {
-        return service.findByPriceBetween(min, max);
-    }
-
-    @GetMapping("/products/change_price")
-    @ResponseBody
-    public void changeProductPrice(@RequestParam Long productId, @RequestParam Integer delta) {
-        service.changePrice(productId, delta);
     }
 }
