@@ -3,6 +3,7 @@ package ru.gb.spring4.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import ru.gb.spring4.entity.Product;
@@ -18,9 +19,22 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    @ResponseBody
-    public List<Product> findAllProducts() {
-        return service.findAll();
+    public Page<Product> getAllProducts(
+            @RequestParam(name = "p", defaultValue = "1") Integer page,
+            @RequestParam(name = "min_price", required = false) Integer minPrice,
+            @RequestParam(name = "max_price", required = false) Integer maxPrice,
+            @RequestParam(name = "name_part", required = false) String namePart
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        System.out.println(minPrice);
+        System.out.println(maxPrice);
+        System.out.println(namePart);
+        System.out.println(page);
+        return service.find(minPrice, maxPrice, namePart, page);
+
+
     }
 
     @GetMapping("/products/{id}")
@@ -39,12 +53,6 @@ public class ProductController {
     @ResponseBody
     public void deleteProduct(@PathVariable Long id) {
         service.deleteById(id);
-    }
-
-    @GetMapping("/products/between")
-    @ResponseBody
-    public List<Product> findAllProductsBetweenPrice(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "2147483647") Integer max) {
-        return service.findByPriceBetween(min, max);
     }
 
     @GetMapping("/products/change_price")

@@ -15,15 +15,24 @@
 <body>
 
 <div class="container" ng-controller="indexController">
-
     <p></p>
-    <h3>Фильтровать по цене</h3>
-    <form novalidate ng-submit="filteredByPrice()">
-        <input class="form-control" type="number" placeholder="Минимальная цена" ng-model="min">
+    <form novalidate ng-submit="loadProducts()">
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="filterName" placeholder="" ng-model="filter.name_part">
+            <label for="filterName">Название продукта</label>
+        </div>
         <p></p>
-        <input class="form-control" type="number" placeholder="Максимальная цена" ng-model="max">
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.min_price">
+            <label for="filterMinPrice">Мин. цена</label>
+        </div>
         <p></p>
-        <button type="submit" class="btn btn-primary">Вывести отфильтрованный список</button>
+        <div class="form-floating input-group-sm">
+            <input type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
+            <label for="filterMaxPrice">Макс. цена</label>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
     </form>
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <tr>

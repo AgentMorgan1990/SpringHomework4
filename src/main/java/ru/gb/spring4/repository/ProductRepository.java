@@ -1,13 +1,10 @@
 package ru.gb.spring4.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import ru.gb.spring4.entity.Product;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
-
-    List<Product> findAllByPriceBetween(Integer min, Integer max);
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
 }
