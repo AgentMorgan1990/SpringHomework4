@@ -3,26 +3,23 @@ package ru.gb.spring4.entity;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Entity
-@Getter
-@Setter
+@Table(name = "products")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "price")
-    private int price;
+    private Integer price;
 }
