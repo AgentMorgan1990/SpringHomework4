@@ -22,6 +22,9 @@ public class Controller {
 
     @GetMapping("/unsecured")
     public String usecuredPage() {
+
+
+
         return "unsecured";
     }
 
