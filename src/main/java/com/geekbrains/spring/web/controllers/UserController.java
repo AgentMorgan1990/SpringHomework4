@@ -16,13 +16,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public void createNewUser(@RequestBody UserDto userDto) {
+    public UserDto createNewUser(@RequestBody UserDto userDto) {
         User user = userConverter.dtoToEntity(userDto);
         userService.save(user);
-        User user1 = userService.findByUsername(user.getUsername()).get();
-        System.out.println(user1.getId());
-        System.out.println(user1.getUsername());
-        System.out.println(user1.getPassword());
-        System.out.println(user1.getEmail());
+        return userConverter.entityToDto(userService.findByUsername(user.getUsername()).get());
     }
 }

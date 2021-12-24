@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
              """,
             nativeQuery = true
     )
-    int addRoleToUser(Long userId, Long roleId);
+    void addRoleToUser(Long userId, Long roleId);
 }
