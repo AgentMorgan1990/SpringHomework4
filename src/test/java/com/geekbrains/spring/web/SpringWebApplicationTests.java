@@ -1,10 +1,10 @@
-package ru.gb.spring4;
+package com.geekbrains.spring.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Spring4ApplicationTests {
+class SpringWebApplicationTests {
 
 	@Test
 	void contextLoads() {
