@@ -65,5 +65,11 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             });
     }
 
+    $scope.createUser = function () {
+        console.log($scope.newUser);
+        $http.post('http://localhost:8189/app/api/v1/users', $scope.newUser)
+            .then(function (response) {
+            });
+    }
     $scope.loadProducts();
 });

@@ -1,5 +1,6 @@
 package com.geekbrains.spring.web.services;
 
+import com.geekbrains.spring.web.entities.Product;
 import com.geekbrains.spring.web.entities.Role;
 import com.geekbrains.spring.web.entities.User;
 import com.geekbrains.spring.web.repositories.UserRepository;
@@ -24,6 +25,11 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    public User save(User user) {
+        User saveUser = userRepository.save(user);
+        userRepository.addRoleToUser(saveUser.getId(),1L);
+        return saveUser;
     }
 
     @Override
